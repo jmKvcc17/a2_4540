@@ -1,15 +1,19 @@
 #include <stdio.h>
-
+#include "a2.h"
 #include "readfile.h"
 
-void readFile(FILE * file)
+void readFile(FILE * file, process a[])
 {
     unsigned int priority, cpu, io, runtime;
+    int lines = 0;
 
     // Read in the lines from the file
     while (fscanf(file, "%u %u %u %u", &priority, &cpu, &io, &runtime) != EOF) 
     {
-        printf("%u %u %u %u\n", priority, cpu, io, runtime);
-        
+        //printf("%u %u %u %u\n", priority, cpu, io, runtime);
+        a[lines].priority = priority;
+        a[lines].cpu = cpu;
+        a[lines].io = io;
+        lines++;
     }
 }
