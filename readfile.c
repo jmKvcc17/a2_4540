@@ -1,7 +1,9 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "a2.h"
 #include "readfile.h"
 
+//void readFile(FILE * file, process a[])
 void readFile(FILE * file, process a[])
 {
     unsigned int priority, cpu, io, runtime;
@@ -16,4 +18,5 @@ void readFile(FILE * file, process a[])
         a[lines].io = io;
         lines++;
     }
+
 }

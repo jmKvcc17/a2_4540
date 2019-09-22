@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "readfile.h"
+#include "priorityQueue.h"
 #include "a2.h"
 
 extern int getArgsInfoOpenFile(FILE ** infile);
@@ -31,6 +32,24 @@ int main(int argc, char * argv[])
     else
     {
         readFile(file, a);
+
+        printf("In main: \n");
+        for (int i = 0; i < 48; i++) {
+            printf("%u %u %u\n", a[i].priority, a[i].cpu, a[i].io);
+        }
+
+        for (int i = 0; i < 48; i++) {
+            insert(a, queue, i);
+
+            //a[i].waitCount = 9000;
+        }
+
+        printf("\nPriority queue: \n");
+
+        for (int i = 0; i < 48; i++) {
+            printf("%u %u %u\n", a[queue[i]].priority, a[queue[i]].cpu, a[queue[i]].io);
+        }
+        //printQueue(queue);
     }
 
     return 0;
@@ -40,7 +59,7 @@ int getArgsInfoOpenFile(FILE ** infile)
 {
     int ret = 0;
 
-    *infile = fopen("a2in.txt", "r");
+    *infile = fopen("a2inTest.txt", "r");
 
     if (*infile == NULL)
     {
