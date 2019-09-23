@@ -14,7 +14,7 @@ struct process_struct {
 	ui curPrior; // adjusted for starvation
 	ui cpuTotal; // sum of time in cpu
 	ui ioTotal; // sum of time doing io
-				// statistics
+	// statistics
 	ui waitSum; // total time in ready queue
 	ui waitCount; // how many times in ready queue (for average)
 	ui waitMin; // smallest time in ready queue

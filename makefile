@@ -9,6 +9,8 @@ readfile.o: readfile.h
 
 priorityQueue.o: priorityQueue.h
 
+roundRobin.o: roundRobin.h
+
 clean:
 	rm -f *.o source
 

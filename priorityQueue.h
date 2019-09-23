@@ -9,6 +9,6 @@ extern bool isFull();
 extern int size();
 extern void insert(process arr[], ui queue[], int index);
 extern process * removeData();
-extern void printQueue(process queue[]);
+extern void printQueue(process a[], ui queue[]);
 
 #endif

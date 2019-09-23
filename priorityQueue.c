@@ -63,10 +63,10 @@ process * removeData(){
    return processArray[--itemCount]; 
 }
 
-void printQueue(process queue[]) {
-   // for (int i = 0; i < 48; i++) {
-   //    printf("Process info: %u %u %u\n", queue[i].priority, queue[i].cpu, queue[i].io);
-   //    printf("Address: %d\n", &queue[i]);
-   //    printf("Test: %u\n", queue[i].waitCount);
-   // }
+void printQueue(process a[], ui queue[]) {
+   for (int i = 0; i < 48; i++) {
+      printf("Process info: %u %u %u\n", a[queue[i]].priority, a[queue[i]].cpu, a[queue[i]].io);
+      //printf("Address: %d\n", &queue[i]);
+      printf("Test: %u\n", a[queue[i]].waitCount);
+   }
 }

@@ -33,23 +33,15 @@ int main(int argc, char * argv[])
     {
         readFile(file, a);
 
-        printf("In main: \n");
-        for (int i = 0; i < 48; i++) {
-            printf("%u %u %u\n", a[i].priority, a[i].cpu, a[i].io);
-        }
-
+        // Initial insert into queue
         for (int i = 0; i < 48; i++) {
             insert(a, queue, i);
 
-            //a[i].waitCount = 9000;
+            // Set initial currPriority
+            a[queue[i]].curPrior = a[queue[i]].priority; 
         }
 
-        printf("\nPriority queue: \n");
-
-        for (int i = 0; i < 48; i++) {
-            printf("%u %u %u\n", a[queue[i]].priority, a[queue[i]].cpu, a[queue[i]].io);
-        }
-        //printQueue(queue);
+        printQueue(a, queue);
     }
 
     return 0;
@@ -59,7 +51,7 @@ int getArgsInfoOpenFile(FILE ** infile)
 {
     int ret = 0;
 
-    *infile = fopen("a2inTest.txt", "r");
+    *infile = fopen("a2in.txt", "r");
 
     if (*infile == NULL)
     {
