@@ -9,11 +9,10 @@ Priority Queue implementation: https://www.tutorialspoint.com/data_structures_al
 #include <stdbool.h>
 #include "a2.h"
 
-process * processArray[48];
 int itemCount = 0;
 
-process * peek() {
-   return processArray[itemCount - 1];
+int peek(ui queue[], ui * queueCount) {
+   return queue[(*queueCount) - 1];
 }
 
 bool isEmpty() {
@@ -28,23 +27,20 @@ int size(){
    return itemCount;
 }  
 
-void insert(process arr[], ui queue[], int index) {
+void insert(process arr[], ui queue[], int index, ui * queueCount) {
    int i = 0;
 
    if(!isFull()){
       // if queue is empty, insert the data 
-      if(itemCount == 0){
-         //processArray[itemCount++] = data;
-         queue[itemCount++] = index;  
-         printf("Location of element in new queue: %d\n", queue[itemCount]);      
+      if((*queueCount) == 0){
+         queue[(*queueCount)++] = index;  
+         //printf("Location of element in new queue: %d\n", queue[(*queueCount)]);      
       }else{
          // start from the right end of the queue 
 			
-         for(i = itemCount - 1; i >= 0; i-- ){
+         for(i = (*queueCount) - 1; i >= 0; i-- ){
             // if data is larger, shift existing item to right end 
-            // if(data->priority > processArray[i]->priority){
-            if(arr[index].priority > arr[queue[i]].priority){
-               //processArray[i+1] = processArray[i];
+            if(arr[index].priority < arr[queue[i]].priority){
                queue[i+1] = queue[i];
             }else{
                break;
@@ -52,21 +48,22 @@ void insert(process arr[], ui queue[], int index) {
          }  
 			
          // insert the data 
-         // processArray[i+1] = data;
          queue[i+1] = index;
-         itemCount++;
+         (*queueCount)++;
       }
    }
 }
 
-process * removeData(){
-   return processArray[--itemCount]; 
+int removeData(ui queue[], ui * queueCount){
+   // return processArray[--itemCount]; 
+   return queue[--(*queueCount)];
 }
 
-void printQueue(process a[], ui queue[]) {
-   for (int i = 0; i < 48; i++) {
+void printQueue(process a[], ui queue[], ui * queueCount) {
+
+   for (int i = 0; i < (*queueCount); i++) {
       printf("Process info: %u %u %u\n", a[queue[i]].priority, a[queue[i]].cpu, a[queue[i]].io);
       //printf("Address: %d\n", &queue[i]);
-      printf("Test: %u\n", a[queue[i]].waitCount);
+      //printf("Test: %u\n", a[queue[i]].waitCount);
    }
 }

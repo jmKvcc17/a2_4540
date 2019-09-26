@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "roundRobin.h"
 #include "readfile.h"
 #include "priorityQueue.h"
 #include "a2.h"
@@ -12,18 +13,22 @@ int main(int argc, char * argv[])
     // Process related vars
     process a[48];
 
-    //a[0].cpu = 1000;
-    //printf("Test: %u\n", a[0].cpu);
 	// process id is array index
 	// variables below hold index to process in this array (process id)
     ui queue[48];
     ui queueCount = 0;
     ui io[48];
-    ui ioCount = 0;
+    ui ioCount = 10;
     ui cpu;
+    os osStruct;
+    osStruct.quantum = 70; // Time quantum
+    osStruct.wait = 30; // PQ wait time
+    printf("Time quantum: %u\n", osStruct.quantum);
 
     // File pointer
     FILE * file;
+
+    int testReturn = 0;
 
     if(getArgsInfoOpenFile(&file))
     {
@@ -35,13 +40,22 @@ int main(int argc, char * argv[])
 
         // Initial insert into queue
         for (int i = 0; i < 48; i++) {
-            insert(a, queue, i);
+            insert(a, queue, i, &queueCount);
 
             // Set initial currPriority
             a[queue[i]].curPrior = a[queue[i]].priority; 
         }
 
-        printQueue(a, queue);
+        printQueue(a, queue, &queueCount);
+        // testReturn = removeData(queue, &queueCount);
+        // printf("\nReturned process: %u %u %u\n", a[testReturn].priority, a[testReturn].cpu, a[testReturn].io);
+        // testReturn = removeData(queue, &queueCount);
+        // printf("\nReturned process: %u %u %u\n", a[testReturn].priority, a[testReturn].cpu, a[testReturn].io);
+        // testReturn = removeData(queue, &queueCount);
+        // printf("\nReturned process: %u %u %u\n", a[testReturn].priority, a[testReturn].cpu, a[testReturn].io);
+        // printQueue(a, queue, &queueCount);
+
+        iterationLoop(a, queue, &queueCount, io, &ioCount, &cpu, osStruct);
     }
 
     return 0;

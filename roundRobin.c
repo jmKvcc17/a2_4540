@@ -1,10 +1,13 @@
 #include <stdio.h>
+#include "cpu.h"
 #include "a2.h"
 
-void iterationLoop() {
+void iterationLoop(process a[], ui queue[], ui * queueCount, ui io[], ui * ioCount, ui * cpu, os osStruct) {
     int interations = 10000;
 
     for (int i = 0; i < interations; i++) {
-
+        // For each iteration, need to check each process in each "queue"/array
+        // for io, cpu, and wait queue
+        // Will then need to do calculations/move processes around
     }
 }
