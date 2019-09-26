@@ -4,6 +4,7 @@
 
 void iterationLoop(process a[], ui queue[], ui * queueCount, ui io[], ui * ioCount, ui * cpu, os osStruct) {
     int interations = 10000;
+    int processID = 0;
 
     for (int i = 0; i < interations; i++) {
         // For each iteration, need to check each process in each "queue"/array

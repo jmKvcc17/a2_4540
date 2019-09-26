@@ -28,30 +28,36 @@ int size(){
 }  
 
 void insert(process arr[], ui queue[], int index, ui * queueCount) {
-   int i = 0;
+    int i = 0;
 
-   if(!isFull()){
-      // if queue is empty, insert the data 
-      if((*queueCount) == 0){
-         queue[(*queueCount)++] = index;  
-         //printf("Location of element in new queue: %d\n", queue[(*queueCount)]);      
-      }else{
-         // start from the right end of the queue 
+    if(!isFull())
+    {
+        // if queue is empty, insert the data 
+        if((*queueCount) == 0)
+        {
+            queue[(*queueCount)++] = index;       
+        }
+        else
+        {
+            // start from the right end of the queue 			
+            for(i = (*queueCount) - 1; i >= 0; i--)
+            {
+                // if data is larger, shift existing item to right end 
+                if(arr[index].priority < arr[queue[i]].priority)
+                {
+                   queue[i+1] = queue[i];
+                }
+                else
+                {
+                   break; // ************DANGER***********
+                }            
+            }  
 			
-         for(i = (*queueCount) - 1; i >= 0; i-- ){
-            // if data is larger, shift existing item to right end 
-            if(arr[index].priority < arr[queue[i]].priority){
-               queue[i+1] = queue[i];
-            }else{
-               break;
-            }            
-         }  
-			
-         // insert the data 
-         queue[i+1] = index;
-         (*queueCount)++;
-      }
-   }
+            // insert the data 
+            queue[i+1] = index;
+            (*queueCount)++;
+        }
+    }
 }
 
 int removeData(ui queue[], ui * queueCount){

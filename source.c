@@ -46,13 +46,13 @@ int main(int argc, char * argv[])
             a[queue[i]].curPrior = a[queue[i]].priority; 
         }
 
-        printQueue(a, queue, &queueCount);
+        // printQueue(a, queue, &queueCount);
+        // printf("\nRemoving single item\n");
         // testReturn = removeData(queue, &queueCount);
         // printf("\nReturned process: %u %u %u\n", a[testReturn].priority, a[testReturn].cpu, a[testReturn].io);
-        // testReturn = removeData(queue, &queueCount);
-        // printf("\nReturned process: %u %u %u\n", a[testReturn].priority, a[testReturn].cpu, a[testReturn].io);
-        // testReturn = removeData(queue, &queueCount);
-        // printf("\nReturned process: %u %u %u\n", a[testReturn].priority, a[testReturn].cpu, a[testReturn].io);
+        // printQueue(a, queue, &queueCount);
+        // printf("\nInserting back in\n");
+        // insert(a, queue, testReturn, &queueCount);
         // printQueue(a, queue, &queueCount);
 
         iterationLoop(a, queue, &queueCount, io, &ioCount, &cpu, osStruct);
