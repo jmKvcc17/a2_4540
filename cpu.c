@@ -34,7 +34,7 @@ void checkCPU(process a[], ui queue[], ui * queueCount, ui * cpu, os osStruct, u
 
             // Move to IO
             cpuToIo(a, &queueCount, io, &ioCount, cpuIndex);
-            *cpu = 48; // ? Reset to -1?
+            *cpu = 48; // ? Reset to outside array range?
         }
     }
     else // Process has passed the time quantum, move back to ready queue
@@ -59,9 +59,4 @@ void toReady(process a[], ui queue[], ui * queueCount, ui * cpu, os osStruct)
     // Enqueue
     insert(a, queue, *cpu, &queueCount);
     *cpu = -1;
-}
-
-void checkReady()
-{
-    
 }
