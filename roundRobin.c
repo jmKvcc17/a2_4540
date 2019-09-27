@@ -10,5 +10,6 @@ void iterationLoop(process a[], ui queue[], ui * queueCount, ui io[], ui * ioCou
         // For each iteration, need to check each process in each "queue"/array
         // for io, cpu, and wait queue
         // Will then need to do calculations/move processes around
+        checkCPU(a, queue, &queueCount, &cpu, osStruct, io, &ioCount);
     }
 }

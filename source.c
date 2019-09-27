@@ -44,6 +44,7 @@ int main(int argc, char * argv[])
 
             // Set initial currPriority
             a[queue[i]].curPrior = a[queue[i]].priority; 
+            a[queue[i]].curCpu = 0;
         }
 
         // printQueue(a, queue, &queueCount);
