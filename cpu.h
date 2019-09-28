@@ -4,7 +4,7 @@
 
 extern void readyToCPU(process a[], ui queue[], ui * queueCount, ui * cpu);
 extern void checkCPU(process a[], ui queue[], ui * queueCount, ui * cpu, os osStruct, ui io[], ui * ioCount);
-extern void toReady(process a[], ui queue[], ui * queueCount, ui * cpu, os osStruct);
+extern void cpuToReady(process a[], ui queue[], ui * queueCount, ui * cpu, os osStruct);
 extern void checkReady();
 
 #endif

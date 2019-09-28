@@ -9,6 +9,8 @@ Priority Queue implementation: https://www.tutorialspoint.com/data_structures_al
 #include <stdbool.h>
 #include "a2.h"
 #include "cpu.h"
+#include "io.h"
+#include "priorityQueue.h"
 
 int itemCount = 0;
 
@@ -28,13 +30,17 @@ int size(){
    return itemCount;
 }  
 
+void toReady(process a[], ui queue[], ui * cpu, ui * queueCount) {
+
+}
+
 void checkReady(process a[], ui queue[], ui * queueCount, ui io[], ui * ioCount, ui * cpu, os osStruct){
     // Go through each process and increase their curPriority to a max of 15
     // Only do so when the
 
     // if the CPU is empty readyToCPU
     if (*cpu == NULL) {
-        readyToCPU(a, queue, &queueCount, &cpu);
+        readyToCPU(a, queue, queueCount, cpu);
     }
     else {
         int numQueue = *queueCount;
@@ -42,7 +48,7 @@ void checkReady(process a[], ui queue[], ui * queueCount, ui io[], ui * ioCount,
 
         for (int i = 0; i < numQueue; i++) {
 
-            currIndex = removeData(queue, &queueCount);
+            currIndex = removeData(queue, queueCount);
             a[currIndex].wait += 1;
 
             if (a[currIndex].wait % osStruct.wait == 0)
@@ -56,10 +62,9 @@ void checkReady(process a[], ui queue[], ui * queueCount, ui io[], ui * ioCount,
             
         }
     }
-
 }
 
-void insertCurr(process arr[], ui queue[], int index, ui * queueCount) {
+void insert(process a[], ui queue[], int index, ui * queueCount) {
     int i = 0;
 
     if(!isFull())
@@ -75,7 +80,7 @@ void insertCurr(process arr[], ui queue[], int index, ui * queueCount) {
             for(i = (*queueCount) - 1; i >= 0; i--)
             {
                 // if data is larger, shift existing item to right end 
-                if(arr[index].curPrior < arr[queue[i]].curPrior)
+                if(a[index].curPrior < a[queue[i]].curPrior)
                 {
                    queue[i+1] = queue[i];
                 }
@@ -92,38 +97,38 @@ void insertCurr(process arr[], ui queue[], int index, ui * queueCount) {
     }
 }
 
-void insert(process arr[], ui queue[], int index, ui * queueCount) {
-    int i = 0;
+// void insert(process arr[], ui queue[], int index, ui * queueCount) {
+//     int i = 0;
 
-    if(!isFull())
-    {
-        // if queue is empty, insert the data 
-        if((*queueCount) == 0)
-        {
-            queue[(*queueCount)++] = index;       
-        }
-        else
-        {
-            // start from the right end of the queue 			
-            for(i = (*queueCount) - 1; i >= 0; i--)
-            {
-                // if data is larger, shift existing item to right end 
-                if(arr[index].priority < arr[queue[i]].priority)
-                {
-                   queue[i+1] = queue[i];
-                }
-                else
-                {
-                   break; // ************DANGER***********
-                }            
-            }  
+//     if(!isFull())
+//     {
+//         // if queue is empty, insert the data 
+//         if((*queueCount) == 0)
+//         {
+//             queue[(*queueCount)++] = index;       
+//         }
+//         else
+//         {
+//             // start from the right end of the queue 			
+//             for(i = (*queueCount) - 1; i >= 0; i--)
+//             {
+//                 // if data is larger, shift existing item to right end 
+//                 if(arr[index].priority < arr[queue[i]].priority)
+//                 {
+//                    queue[i+1] = queue[i];
+//                 }
+//                 else
+//                 {
+//                    break; // ************DANGER***********
+//                 }            
+//             }  
 			
-            // insert the data 
-            queue[i+1] = index;
-            (*queueCount)++;
-        }
-    }
-}
+//             // insert the data 
+//             queue[i+1] = index;
+//             (*queueCount)++;
+//         }
+//     }
+// }
 
 int removeData(ui queue[], ui * queueCount){
    // return processArray[--itemCount]; 

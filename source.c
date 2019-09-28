@@ -4,6 +4,7 @@
 #include "readfile.h"
 #include "priorityQueue.h"
 #include "a2.h"
+#include "printStats.h"
 
 extern int getArgsInfoOpenFile(FILE ** infile);
 extern int mallocArrs(process a[]);
@@ -23,7 +24,6 @@ int main(int argc, char * argv[])
     os osStruct;
     osStruct.quantum = 70; // Time quantum
     osStruct.wait = 30; // PQ wait time
-    printf("Time quantum: %u\n", osStruct.quantum);
 
     // File pointer
     FILE * file;
@@ -41,22 +41,13 @@ int main(int argc, char * argv[])
         // Initial insert into queue
         for (int i = 0; i < 48; i++) {
             insert(a, queue, i, &queueCount);
-
-            // Set initial currPriority
-            a[queue[i]].curPrior = a[queue[i]].priority; 
-            a[queue[i]].curCpu = 0;
         }
-
+        cpu = removeData(queue, &queueCount);
         // printQueue(a, queue, &queueCount);
         // printf("\nRemoving single item\n");
-        // testReturn = removeData(queue, &queueCount);
-        // printf("\nReturned process: %u %u %u\n", a[testReturn].priority, a[testReturn].cpu, a[testReturn].io);
-        // printQueue(a, queue, &queueCount);
-        // printf("\nInserting back in\n");
-        // insert(a, queue, testReturn, &queueCount);
-        // printQueue(a, queue, &queueCount);
 
         iterationLoop(a, queue, &queueCount, io, &ioCount, &cpu, osStruct);
+        // printStats(a, osStruct);
     }
 
     return 0;

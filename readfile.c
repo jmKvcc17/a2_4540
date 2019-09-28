@@ -14,6 +14,8 @@ void readFile(FILE * file, process a[])
     {
         //printf("%u %u %u %u\n", priority, cpu, io, runtime);
         a[lines].priority = priority;
+        a[lines].curPrior = priority; // ***
+        a[lines].curCpu = 0;
         a[lines].cpu = cpu;
         a[lines].io = io;
         lines++;
