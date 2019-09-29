@@ -1,14 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "roundRobin.h"
 #include "readfile.h"
 #include "io.h"
 #include "cpu.h"
 #include "a2.h"
 #include "printStats.h"
+#include "priorityQueue.h"
 
-extern int getArgsInfoOpenFile(FILE ** infile);
-extern int mallocArrs(process a[]);
+int getArgsInfoOpenFile(FILE ** infile);
+void tempPrint(process a[], ui queue[]);
+void iterationLoop(process a[], ui queue[], ui * queueCount, ui io[], ui * ioCount, ui * cpu, os osStruct);
 
 int main(int argc, char * argv[])
 {
@@ -20,7 +21,7 @@ int main(int argc, char * argv[])
     ui queue[48];
     ui queueCount = 0;
     ui io[48];
-    ui ioCount = 10;
+    ui ioCount = 0;
     ui cpu;
     os osStruct;
     osStruct.quantum = 70; // Time quantum
@@ -28,8 +29,6 @@ int main(int argc, char * argv[])
 
     // File pointer
     FILE * file;
-
-    int testReturn = 0;
 
     if(getArgsInfoOpenFile(&file))
     {
@@ -42,14 +41,16 @@ int main(int argc, char * argv[])
         // Initial insert into queue
         for (int i = 0; i < 48; i++) {
             insert(a, queue, i, &queueCount);
+            io[i] = 0;
         }
-        cpu = removeData(queue, &queueCount);
-        // printQueue(a, queue, &queueCount);
+        cpu = removeData(a, queue, &queueCount);
         // printf("\nRemoving single item\n");
 
         iterationLoop(a, queue, &queueCount, io, &ioCount, &cpu, osStruct);
         // printStats(a, osStruct);
     }
+
+    tempPrint(a, queue);
 
     return 0;
 }
@@ -71,14 +72,28 @@ int getArgsInfoOpenFile(FILE ** infile)
 
 void iterationLoop(process a[], ui queue[], ui * queueCount, ui io[], ui * ioCount, ui * cpu, os osStruct) {
     int interations = 100;
-    int processID = 0;
+
+    printf("Cpu value: %u\n", *cpu);
 
     for (int i = 0; i < interations; i++) {
         // For each iteration, need to check each process in each "queue"/array
         // for io, cpu, and wait queue
         // Will then need to do calculations/move processes around
         checkCPU(a, queue, queueCount, cpu, osStruct, io, ioCount);
-        //checkIo(a, queue, queueCount, io, ioCount, cpu, osStruct);
-        //checkReady(a, queue, queueCount, cpu, osStruct);
+        checkIo(a, queue, queueCount, io, ioCount, cpu, osStruct);
+        //checkReady(a, queue, queueCount, io, ioCount, cpu, osStruct);
+    }
+}
+
+void tempPrint(process a[], ui queue[]) {
+    printf("\nProcess end info\n");
+    for (int i = 0; i < 48; i++) {
+        printf("\n");
+        printf("Global priority: %u\n", a[queue[i]].priority);
+        printf("Global CPU: %u\n", a[queue[i]].cpu);
+        printf("Global IO: %u\n", a[queue[i]].io);
+        printf("Current CPU: %u\n", a[queue[i]].curCpu);
+        printf("Current Priority: %u\n", a[queue[i]].curPrior);
+        printf("Current IO: %u\n", a[queue[i]].curIo);
     }
 }

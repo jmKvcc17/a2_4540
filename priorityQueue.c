@@ -71,7 +71,7 @@ void checkReady(process a[], ui queue[], ui * queueCount, ui io[], ui * ioCount,
 void insert(process a[], ui queue[], int index, ui * queueCount) {
     int i = 0;
 
-    if(!isFull())
+    if(*queueCount != 48)
     {
         // if queue is empty, insert the data 
         if((*queueCount) == 0)
@@ -103,24 +103,18 @@ void insert(process a[], ui queue[], int index, ui * queueCount) {
 
 // Removes from wait queue
 int removeData(process a[], ui queue[], ui * queueCount){
+    int queueSize = *queueCount - 1;
     // Check if min wait time needs to be updated
-    if (a[queue[*queueCount]].wait < a[queue[*queueCount]].waitMin)
-        a[queue[*queueCount]].waitMin = a[queue[*queueCount]].wait;
+    printf("Size of queue: %d\n", queueSize);
+    if (a[queue[queueSize]].wait < a[queue[queueSize]].waitMin)
+        a[queue[queueSize]].waitMin = a[queue[queueSize]].wait;
 
     // Check if max wait time needs to be updated
-    if (a[queue[*queueCount]].wait > a[queue[*queueCount]].waitMax)
-        a[queue[*queueCount]].waitMax = a[queue[*queueCount]].wait;
+    if (a[queue[queueSize]].wait > a[queue[queueSize]].waitMax)
+        a[queue[queueSize]].waitMax = a[queue[queueSize]].wait;
 
-    a[queue[*queueCount]].waitSum += a[queue[*queueCount]].wait; // Update total wait time
-    a[queue[*queueCount]].wait = 0; // Reset wait time
+    a[queue[queueSize]].waitSum += a[queue[queueSize]].wait; // Update total wait time
+    a[queue[queueSize]].wait = 0; // Reset wait time
 
-    // return processArray[--itemCount]; 
     return queue[--(*queueCount)];
-}
-
-void printQueue(process a[], ui queue[], ui * queueCount) {
-
-   for (int i = 0; i < (*queueCount); i++) {
-      printf("Process info: %u %u %u\n", a[queue[i]].priority, a[queue[i]].cpu, a[queue[i]].io);
-   }
 }
