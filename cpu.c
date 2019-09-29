@@ -9,7 +9,7 @@
 void readyToCPU(process a[], ui queue[], ui * queueCount, ui * cpu) 
 {
     // Remove the highest priority process
-    int procIndex = removeData(queue, queueCount);
+    int procIndex = removeData(a, queue, queueCount);
     a[procIndex].curCpu = 0;
     *cpu = procIndex;
 }
@@ -36,7 +36,7 @@ void checkCPU(process a[], ui queue[], ui * queueCount, ui * cpu, os osStruct, u
 
             // Move to IO
             cpuToIo(a, queueCount, io, ioCount, cpuIndex);
-            *cpu = NULL; // ? Reset to outside array range?
+            *cpu = removeData(a, queue, queueCount); // Load in the next process
         }
     }
     else // Process has passed the time quantum, move back to ready queue
@@ -45,31 +45,26 @@ void checkCPU(process a[], ui queue[], ui * queueCount, ui * cpu, os osStruct, u
         //cpuToReady(a, queue, queueCount, cpu, osStruct);
 
         // ****
-        // Set time waiting to 0 (MAY NOT HAVE TO DO)
-        // a[*cpu].wait = 0;
         a[*cpu].waitCount += 1; // Increment number of times in wait queue
-
-        // Set curPriority to original priority
-        a[*cpu].curPrior = a[*cpu].priority;
+        a[*cpu].curPrior = a[*cpu].priority; // Set curPriority to original priority
         //insert(a, queue, *cpu, queueCount);
         toReady(a, queue, *cpu, queueCount);
         // ***
 
-        // Set cpu to empty
-        *cpu = NULL;
+        *cpu = removeData(a, queue, queueCount); // Load in the next process
     }
 }
 
-// Send the process to the 
-void cpuToReady(process a[], ui queue[], ui * queueCount, ui * cpu, os osStruct)
-{
-    // Set time waiting to 0 (MAY NOT HAVE TO DO)
-    a[*cpu].wait = 0;
+// // Send the process to the 
+// void cpuToReady(process a[], ui queue[], ui * queueCount, ui * cpu, os osStruct)
+// {
+//     // Set time waiting to 0 (MAY NOT HAVE TO DO)
+//     a[*cpu].wait = 0;
 
-    // Set curPriority to original priority
-    a[*cpu].curPrior = a[*cpu].priority;
+//     // Set curPriority to original priority
+//     a[*cpu].curPrior = a[*cpu].priority;
 
-    // Enqueue
-    insert(a, queue, *cpu, queueCount);
-    *cpu = -1;
-}
+//     // Enqueue
+//     insert(a, queue, *cpu, queueCount);
+//     *cpu = -1;
+// }

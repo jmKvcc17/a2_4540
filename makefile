@@ -1,15 +1,13 @@
 CFLAGS= -O -Wall -pedantic -std=c11
 CC=gcc
 
-source: source.o readfile.o priorityQueue.o roundRobin.o io.o cpu.o printStats.o
+source: source.o readfile.o priorityQueue.o io.o cpu.o printStats.o
 
 source.o: readfile.h
 
 readfile.o: readfile.h
 
 priorityQueue.o: priorityQueue.h a2.h io.h cpu.h
-
-roundRobin.o: roundRobin.h a2.h io.h cpu.h
 
 io.o: io.h a2.h priorityQueue.h
 

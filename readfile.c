@@ -18,6 +18,8 @@ void readFile(FILE * file, process a[])
         a[lines].curCpu = 0;
         a[lines].cpu = cpu;
         a[lines].io = io;
+        a[lines].waitMin = 0;
+        a[lines].waitMax = 0;
         lines++;
     }
 

@@ -12,56 +12,60 @@ Priority Queue implementation: https://www.tutorialspoint.com/data_structures_al
 #include "io.h"
 #include "priorityQueue.h"
 
-int itemCount = 0;
 
 int peek(ui queue[], ui * queueCount) {
    return queue[(*queueCount) - 1];
 }
 
-bool isEmpty() {
-   return itemCount == 0;
-}
+void swap(ui *xp, ui *yp)  
+{  
+    ui temp = *xp;  
+    *xp = *yp;  
+    *yp = temp;  
+}   
 
-bool isFull() {
-   return itemCount == 48;
-}
-
-int size(){
-   return itemCount;
-}  
-
-void toReady(process a[], ui queue[], ui * cpu, ui * queueCount) {
-
+// An agnostic implementation that just needs the process index
+// Should be able to accept from both IO and CPU
+void bubbleSort(process a[], ui queue[], ui * cpu, ui * queueCount) {
+    int i, j;  
+    for (i = 0; i < *queueCount-1; i++)      
+      
+    // Last i elements are already in place  
+    for (j = 0; j < *queueCount-i-1; j++)  
+        if (a[queue[j]].curPrior > a[queue[j+1]].curPrior)  
+            swap(&queue[j], &queue[j+1]); 
 }
 
 void checkReady(process a[], ui queue[], ui * queueCount, ui io[], ui * ioCount, ui * cpu, os osStruct){
     // Go through each process and increase their curPriority to a max of 15
-    // Only do so when the
+    // Only do so when the wait time is divisible by 30
 
     // if the CPU is empty readyToCPU
-    if (*cpu == NULL) {
-        readyToCPU(a, queue, queueCount, cpu);
-    }
-    else {
+    // if (*cpu == NULL) {
+    //     readyToCPU(a, queue, queueCount, cpu);
+    // }
+    // else {
         int numQueue = *queueCount;
-        int currIndex;
+        //int currIndex;
 
         for (int i = 0; i < numQueue; i++) {
 
-            currIndex = removeData(queue, queueCount);
-            a[currIndex].wait += 1;
+            //currIndex = removeData(queue, queueCount);
+            a[queue[i]].wait += 1;
 
-            if (a[currIndex].wait % osStruct.wait == 0)
+            if (a[queue[i]].wait % osStruct.wait == 0)
             {
                 // Increment the current priority
-                if (a[currIndex].curPrior < 15) {
-                    a[currIndex].curPrior += 1;
+                if (a[queue[i]].curPrior < 15) {
+                    a[queue[i]].curPrior += 1;
+
+                    bubbleSort(a, queue, cpu, queueCount); // Resort the queue
                 }
                 
             }
             
         }
-    }
+    //}
 }
 
 void insert(process a[], ui queue[], int index, ui * queueCount) {
@@ -97,42 +101,21 @@ void insert(process a[], ui queue[], int index, ui * queueCount) {
     }
 }
 
-// void insert(process arr[], ui queue[], int index, ui * queueCount) {
-//     int i = 0;
+// Removes from wait queue
+int removeData(process a[], ui queue[], ui * queueCount){
+    // Check if min wait time needs to be updated
+    if (a[queue[*queueCount]].wait < a[queue[*queueCount]].waitMin)
+        a[queue[*queueCount]].waitMin = a[queue[*queueCount]].wait;
 
-//     if(!isFull())
-//     {
-//         // if queue is empty, insert the data 
-//         if((*queueCount) == 0)
-//         {
-//             queue[(*queueCount)++] = index;       
-//         }
-//         else
-//         {
-//             // start from the right end of the queue 			
-//             for(i = (*queueCount) - 1; i >= 0; i--)
-//             {
-//                 // if data is larger, shift existing item to right end 
-//                 if(arr[index].priority < arr[queue[i]].priority)
-//                 {
-//                    queue[i+1] = queue[i];
-//                 }
-//                 else
-//                 {
-//                    break; // ************DANGER***********
-//                 }            
-//             }  
-			
-//             // insert the data 
-//             queue[i+1] = index;
-//             (*queueCount)++;
-//         }
-//     }
-// }
+    // Check if max wait time needs to be updated
+    if (a[queue[*queueCount]].wait > a[queue[*queueCount]].waitMax)
+        a[queue[*queueCount]].waitMax = a[queue[*queueCount]].wait;
 
-int removeData(ui queue[], ui * queueCount){
-   // return processArray[--itemCount]; 
-   return queue[--(*queueCount)];
+    a[queue[*queueCount]].waitSum += a[queue[*queueCount]].wait; // Update total wait time
+    a[queue[*queueCount]].wait = 0; // Reset wait time
+
+    // return processArray[--itemCount]; 
+    return queue[--(*queueCount)];
 }
 
 void printQueue(process a[], ui queue[], ui * queueCount) {

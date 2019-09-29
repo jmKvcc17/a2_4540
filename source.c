@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include "roundRobin.h"
 #include "readfile.h"
-#include "priorityQueue.h"
+#include "io.h"
+#include "cpu.h"
 #include "a2.h"
 #include "printStats.h"
 
@@ -68,11 +69,16 @@ int getArgsInfoOpenFile(FILE ** infile)
     return ret;
 }
 
-int mallocArrs(process a[]) 
-{
-    int ret = 0;
+void iterationLoop(process a[], ui queue[], ui * queueCount, ui io[], ui * ioCount, ui * cpu, os osStruct) {
+    int interations = 100;
+    int processID = 0;
 
-    a = malloc(sizeof(process) * 48);
-
-    return ret;
+    for (int i = 0; i < interations; i++) {
+        // For each iteration, need to check each process in each "queue"/array
+        // for io, cpu, and wait queue
+        // Will then need to do calculations/move processes around
+        checkCPU(a, queue, queueCount, cpu, osStruct, io, ioCount);
+        //checkIo(a, queue, queueCount, io, ioCount, cpu, osStruct);
+        //checkReady(a, queue, queueCount, cpu, osStruct);
+    }
 }
