@@ -71,7 +71,7 @@ int getArgsInfoOpenFile(FILE ** infile)
 }
 
 void iterationLoop(process a[], ui queue[], ui * queueCount, ui io[], ui * ioCount, ui * cpu, os osStruct) {
-    int interations = 100;
+    int interations = 1000;
 
     printf("Cpu value: %u\n", *cpu);
 
@@ -81,7 +81,7 @@ void iterationLoop(process a[], ui queue[], ui * queueCount, ui io[], ui * ioCou
         // Will then need to do calculations/move processes around
         checkCPU(a, queue, queueCount, cpu, osStruct, io, ioCount);
         checkIo(a, queue, queueCount, io, ioCount, cpu, osStruct);
-        //checkReady(a, queue, queueCount, io, ioCount, cpu, osStruct);
+        checkReady(a, queue, queueCount, io, ioCount, cpu, osStruct);
     }
 }
 
@@ -95,5 +95,7 @@ void tempPrint(process a[], ui queue[]) {
         printf("Current CPU: %u\n", a[queue[i]].curCpu);
         printf("Current Priority: %u\n", a[queue[i]].curPrior);
         printf("Current IO: %u\n", a[queue[i]].curIo);
+        printf("Wait Count: %u\n", a[queue[i]].waitCount);
+        printf("CPU Total: %u\n", a[queue[i]].cpuTotal);
     }
 }

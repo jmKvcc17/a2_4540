@@ -45,7 +45,7 @@ void checkReady(process a[], ui queue[], ui * queueCount, ui io[], ui * ioCount,
     //     readyToCPU(a, queue, queueCount, cpu);
     // }
     // else {
-        int numQueue = *queueCount;
+        int numQueue = *queueCount - 1;
         //int currIndex;
 
         for (int i = 0; i < numQueue; i++) {
