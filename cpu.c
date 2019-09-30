@@ -21,14 +21,14 @@ void checkCPU(process a[], ui queue[], ui * queueCount, ui * cpu, os osStruct, u
         int cpuIndex = *cpu;
 
         cpuToIo(a, queueCount, io, ioCount, cpuIndex); // Move process to IO
-        *cpu = removeData(a, queue, queueCount); // Load in the next process
+        *cpu = dequeue(a, queue, queueCount); // Load in the next process
     }
     else { // Check time quantum
         if (a[*cpu].curCpu == osStruct.quantum) // If the process has reached the quantum time
         {       
             insert(a, queue, *cpu, queueCount); // Insert back into ready queue
 
-            *cpu = removeData(a, queue, queueCount); // Load in the next process
+            *cpu = dequeue(a, queue, queueCount); // Load in the next process
         }
     }
 }

@@ -27,18 +27,16 @@ void checkReady(process a[], ui queue[], ui * queueCount, ui io[], ui * ioCount,
 
         if (a[queue[i]].wait % osStruct.wait == 0) // If the wait time is divisible by 30 (wait time)
         {
-            if (a[queue[i]].curPrior < 15) { // If the process is less than 15
-                a[queue[i]].curPrior += 1; // Increment the current priority
+            a[queue[i]].curPrior += 1; // Increment the current priority
 
-                ui temp;
-                for (int j = 0; j < *queueCount-i-1; j++)  
-                    if (a[queue[j]].curPrior >= a[queue[j+1]].curPrior) {
-                        // Swap
-                        temp = queue[j];
-                        queue[j] = queue[j+1];
-                        queue[j+1] = temp;
-                    }
-            }   
+            ui temp;
+            for (int j = 0; j < *queueCount-i-1; j++)  
+                if (a[queue[j]].curPrior >= a[queue[j+1]].curPrior) { // If the process' curPriority is greater than or equal to the next process
+                    // Swap
+                    temp = queue[j];
+                    queue[j] = queue[j+1];
+                    queue[j+1] = temp;
+                }
         }   
     }
 }
@@ -63,7 +61,7 @@ void insert(process a[], ui queue[], int index, ui * queueCount) {
 Removes the highest priority index from the wait queue.
 Before it is removed, the wait min and max are updated.
 */
-int removeData(process a[], ui queue[], ui * queueCount){
+int dequeue(process a[], ui queue[], ui * queueCount) {
     int queueSize = *queueCount - 1; // Get the top priority processes index
     
     if (a[queue[queueSize]].wait < a[queue[queueSize]].waitMin) // Check if min wait time needs to be updated

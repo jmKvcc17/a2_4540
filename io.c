@@ -27,10 +27,10 @@ void checkIo(process a[], ui queue[], ui * queueCount, ui io[], ui * ioCount, ui
 
             insert(a, queue, io[i], queueCount); // Insert back into wait queue
 
-            for (int j = i; j < *ioCount; j++) {
+            for (int j = i; j < *ioCount; j++) { // Loop 
                 io[j] = io[j + 1];
             }
-            (*ioCount)--;
+            (*ioCount)--; // Decrease amount of processes in IO
             i--;
         }
         else { // Increase IO time

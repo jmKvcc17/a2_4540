@@ -41,7 +41,7 @@ int main(int argc, char * argv[])
         for (int i = 0; i < 48; i++) {
             insert(a, queue, i, &queueCount);
         }
-        cpu = removeData(a, queue, &queueCount); // Load in the first process
+        cpu = dequeue(a, queue, &queueCount); // Load in the first process
 
         iterationLoop(a, queue, &queueCount, io, &ioCount, &cpu, osStruct); // Go to the main loop for simulation
     }
