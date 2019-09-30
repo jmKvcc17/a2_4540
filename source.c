@@ -41,10 +41,8 @@ int main(int argc, char * argv[])
         // Initial insert into queue
         for (int i = 0; i < 48; i++) {
             insert(a, queue, i, &queueCount);
-            io[i] = 0;
         }
         cpu = removeData(a, queue, &queueCount);
-        // printf("\nRemoving single item\n");
 
         iterationLoop(a, queue, &queueCount, io, &ioCount, &cpu, osStruct);
         // printStats(a, osStruct);
@@ -71,7 +69,7 @@ int getArgsInfoOpenFile(FILE ** infile)
 }
 
 void iterationLoop(process a[], ui queue[], ui * queueCount, ui io[], ui * ioCount, ui * cpu, os osStruct) {
-    int interations = 1000;
+    int interations = 10000;
 
     printf("Cpu value: %u\n", *cpu);
 
@@ -80,8 +78,9 @@ void iterationLoop(process a[], ui queue[], ui * queueCount, ui io[], ui * ioCou
         // for io, cpu, and wait queue
         // Will then need to do calculations/move processes around
         checkCPU(a, queue, queueCount, cpu, osStruct, io, ioCount);
-        checkIo(a, queue, queueCount, io, ioCount, cpu, osStruct);
         checkReady(a, queue, queueCount, io, ioCount, cpu, osStruct);
+        checkIo(a, queue, queueCount, io, ioCount, cpu, osStruct);
+        
     }
 }
 
@@ -97,5 +96,6 @@ void tempPrint(process a[], ui queue[]) {
         printf("Current IO: %u\n", a[queue[i]].curIo);
         printf("Wait Count: %u\n", a[queue[i]].waitCount);
         printf("CPU Total: %u\n", a[queue[i]].cpuTotal);
+        printf("IO Total: %u\n", a[queue[i]].ioTotal);
     }
 }

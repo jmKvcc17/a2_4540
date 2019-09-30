@@ -28,12 +28,16 @@ void swap(ui *xp, ui *yp)
 // Should be able to accept from both IO and CPU
 void bubbleSort(process a[], ui queue[], ui * cpu, ui * queueCount) {
     int i, j;  
+    ui temp;
     for (i = 0; i < *queueCount-1; i++)      
-      
-    // Last i elements are already in place  
-    for (j = 0; j < *queueCount-i-1; j++)  
-        if (a[queue[j]].curPrior > a[queue[j+1]].curPrior)  
-            swap(&queue[j], &queue[j+1]); 
+        // Last i elements are already in place  
+        for (j = 0; j < *queueCount-i-1; j++)  
+            if (a[queue[j]].curPrior > a[queue[j+1]].curPrior) {
+                temp = queue[j];
+                queue[j] = queue[j+1];
+                queue[j+1] = temp;
+            }  
+                //swap(&queue[j], &queue[j+1]); 
 }
 
 void checkReady(process a[], ui queue[], ui * queueCount, ui io[], ui * ioCount, ui * cpu, os osStruct){
@@ -59,7 +63,16 @@ void checkReady(process a[], ui queue[], ui * queueCount, ui io[], ui * ioCount,
                 if (a[queue[i]].curPrior < 15) {
                     a[queue[i]].curPrior += 1;
 
-                    bubbleSort(a, queue, cpu, queueCount); // Resort the queue
+                    int j;
+                    ui temp;
+                    //bubbleSort(a, queue, cpu, queueCount); // Resort the queue
+                    for (j = 0; j < *queueCount-i-1; j++)  
+                        if (a[queue[j]].curPrior > a[queue[j+1]].curPrior) {
+                            // Swap
+                            temp = queue[j];
+                            queue[j] = queue[j+1];
+                            queue[j+1] = temp;
+                        }
                 }
                 
             }
@@ -69,35 +82,65 @@ void checkReady(process a[], ui queue[], ui * queueCount, ui io[], ui * ioCount,
 }
 
 void insert(process a[], ui queue[], int index, ui * queueCount) {
-    int i = 0;
+    //int i = 0;
 
-    if(*queueCount != 48)
+    if(*queueCount < 48)
     {
-        // if queue is empty, insert the data 
-        if((*queueCount) == 0)
-        {
-            queue[(*queueCount)++] = index;       
-        }
-        else
-        {
-            // start from the right end of the queue 			
-            for(i = (*queueCount) - 1; i >= 0; i--)
-            {
-                // if data is larger, shift existing item to right end 
-                if(a[index].curPrior < a[queue[i]].curPrior)
-                {
-                   queue[i+1] = queue[i];
-                }
-                else
-                {
-                   break; // ************DANGER***********
-                }            
-            }  
+        // // if queue is empty, insert the data 
+        // if((*queueCount) == 0)
+        // {
+        //     queue[(*queueCount)++] = index;       
+        // }
+        // else
+        // {
+        //     // start from the right end of the queue 			
+        //     for(i = (*queueCount) - 1; i >= 0; i--)
+        //     {
+        //         // if data is larger, shift existing item to right end 
+        //         if(a[index].curPrior < a[queue[i]].curPrior)
+        //         {
+        //            queue[i+1] = queue[i];
+        //         }
+        //         else
+        //         {
+        //            break; // ************DANGER***********
+        //         }            
+        //     }  
 			
-            // insert the data 
+        //     // insert the data 
+        //     queue[i+1] = index;
+        //     (*queueCount)++;
+        // }
+
+        // int i, j;
+        // int key;
+        // for (i = 1; i < *queueCount; i++) { 
+        //     key = queue[i]; 
+        //     j = i - 1; 
+    
+        //     /* Move elements of arr[0..i-1], that are 
+        //     greater than key, to one position ahead 
+        //     of their current position */
+        //     while (j >= 0 && a[queue[j]].curPrior > a[key].curPrior) { 
+        //         queue[j + 1] = queue[j]; 
+        //         j = j - 1; 
+        //     } 
+        //     queue[j + 1] = key;      
+        // } 
+        // (*queueCount)++;
+
+            int i;
+            a[index].curPrior = a[index].priority;
+            for (i = *queueCount-1; i >= 0 && a[queue[i]].curPrior > a[index].curPrior; i--) {
+                queue[i+1] = queue[i];
+            }
             queue[i+1] = index;
             (*queueCount)++;
+            a[index].waitCount++;
+            a[index].wait = 0;
         }
+    else {
+        printf("Error. Trying to insert too many processes into wait queue.\n");
     }
 }
 
@@ -105,7 +148,7 @@ void insert(process a[], ui queue[], int index, ui * queueCount) {
 int removeData(process a[], ui queue[], ui * queueCount){
     int queueSize = *queueCount - 1;
     // Check if min wait time needs to be updated
-    printf("Size of queue: %d\n", queueSize);
+    // printf("Size of queue: %d\n", queueSize);
     if (a[queue[queueSize]].wait < a[queue[queueSize]].waitMin)
         a[queue[queueSize]].waitMin = a[queue[queueSize]].wait;
 
