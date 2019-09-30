@@ -12,22 +12,23 @@ Priority Queue implementation: https://www.tutorialspoint.com/data_structures_al
 #include "io.h"
 #include "priorityQueue.h"
 
+/*
+Go through each process and increase their curPriority to a max of 15.
+Only do so when the wait time is divisible by 30.
+Utilizes a bubble sort to sort processes, is stable to preserve process
+order so other processes don't keep getting sent to the front of the queue.
+*/
 void checkReady(process a[], ui queue[], ui * queueCount, ui io[], ui * ioCount, ui * cpu, os osStruct){
-    // Go through each process and increase their curPriority to a max of 15
-    // Only do so when the wait time is divisible by 30
-    // Utilizes a bubble sort to move processes
-
     int numQueue = *queueCount - 1;
 
     for (int i = 0; i < numQueue; i++) {
 
         a[queue[i]].wait += 1;
 
-        if (a[queue[i]].wait % osStruct.wait == 0)
+        if (a[queue[i]].wait % osStruct.wait == 0) // If the wait time is divisible by 30 (wait time)
         {
-            // Increment the current priority
-            if (a[queue[i]].curPrior < 15) {
-                a[queue[i]].curPrior += 1;
+            if (a[queue[i]].curPrior < 15) { // If the process is less than 15
+                a[queue[i]].curPrior += 1; // Increment the current priority
 
                 ui temp;
                 for (int j = 0; j < *queueCount-i-1; j++)  
@@ -43,12 +44,12 @@ void checkReady(process a[], ui queue[], ui * queueCount, ui io[], ui * ioCount,
 }
 
 /*
-Utilizes insertion sort
+Utilizes insertion sort to insert the process back into the wait queue
 */
 void insert(process a[], ui queue[], int index, ui * queueCount) {
 
     int i;
-    a[index].curPrior = a[index].priority;
+    a[index].curPrior = a[index].priority; // reset current priority
     for (i = *queueCount-1; i >= 0 && a[queue[i]].curPrior > a[index].curPrior; i--) {
         queue[i+1] = queue[i];
     }
@@ -58,9 +59,12 @@ void insert(process a[], ui queue[], int index, ui * queueCount) {
     a[index].wait = 0;
 }
 
-// Removes from wait queue
+/*
+Removes the highest priority index from the wait queue.
+Before it is removed, the wait min and max are updated.
+*/
 int removeData(process a[], ui queue[], ui * queueCount){
-    int queueSize = *queueCount - 1;
+    int queueSize = *queueCount - 1; // Get the top priority processes index
     
     if (a[queue[queueSize]].wait < a[queue[queueSize]].waitMin) // Check if min wait time needs to be updated
         a[queue[queueSize]].waitMin = a[queue[queueSize]].wait;
