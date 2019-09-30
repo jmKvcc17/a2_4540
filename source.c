@@ -45,10 +45,10 @@ int main(int argc, char * argv[])
         cpu = removeData(a, queue, &queueCount);
 
         iterationLoop(a, queue, &queueCount, io, &ioCount, &cpu, osStruct);
-        // printStats(a, osStruct);
     }
 
-    tempPrint(a, queue);
+    //tempPrint(a, queue);
+    printStats(a, osStruct);
 
     return 0;
 }
