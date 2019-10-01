@@ -1,15 +1,10 @@
 /*
 Author: Jesse Meachum
-Priority Queue implementation: https://www.tutorialspoint.com/data_structures_algorithms/priority_queue.htm
+Class: CS4540
+Assignment: A2
 */
-
 #include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdbool.h>
 #include "a2.h"
-#include "cpu.h"
-#include "io.h"
 #include "priorityQueue.h"
 
 /*
@@ -18,7 +13,7 @@ Only do so when the wait time is divisible by 30.
 Utilizes a bubble sort to sort processes, is stable to preserve process
 order so other processes don't keep getting sent to the front of the queue.
 */
-void checkReady(process a[], ui queue[], ui * queueCount, ui io[], ui * ioCount, ui * cpu, os osStruct){
+void checkReady(process a[], ui queue[], ui * queueCount, os osStruct){
     int numQueue = *queueCount - 1;
 
     for (int i = 0; i < numQueue; i++) {
@@ -48,7 +43,7 @@ void insert(process a[], ui queue[], int index, ui * queueCount) {
 
     int i;
     a[index].curPrior = a[index].priority; // reset current priority
-    for (i = *queueCount-1; i >= 0 && a[queue[i]].curPrior > a[index].curPrior; i--) {
+    for (i = *queueCount-1; i >= 0 && a[queue[i]].curPrior > a[index].curPrior; i--) { // Will shift processes down to make room for new process
         queue[i+1] = queue[i];
     }
     queue[i+1] = index;
@@ -64,6 +59,9 @@ Before it is removed, the wait min and max are updated.
 int dequeue(process a[], ui queue[], ui * queueCount) {
     int queueSize = *queueCount - 1; // Get the top priority processes index
     
+    if (a[queue[queueSize]].waitMin == 0)
+        a[queue[queueSize]].waitMin = a[queue[queueSize]].wait;
+
     if (a[queue[queueSize]].wait < a[queue[queueSize]].waitMin) // Check if min wait time needs to be updated
         a[queue[queueSize]].waitMin = a[queue[queueSize]].wait;
 

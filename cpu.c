@@ -1,3 +1,8 @@
+/*
+Author: Jesse Meachum
+Class: CS4540
+Assignment: A2
+*/
 #include <stdio.h>
 #include "priorityQueue.h"
 #include "io.h"
@@ -20,11 +25,11 @@ void checkCPU(process a[], ui queue[], ui * queueCount, ui * cpu, os osStruct, u
 
         int cpuIndex = *cpu;
 
-        cpuToIo(a, queueCount, io, ioCount, cpuIndex); // Move process to IO
+        cpuToIo(a, io, ioCount, cpuIndex); // Move process to IO
         *cpu = dequeue(a, queue, queueCount); // Load in the next process
     }
     else { // Check time quantum
-        if (a[*cpu].curCpu == osStruct.quantum) // If the process has reached the quantum time
+        if (a[*cpu].curCpu >= osStruct.quantum) // If the process has reached the quantum time
         {       
             insert(a, queue, *cpu, queueCount); // Insert back into ready queue
 

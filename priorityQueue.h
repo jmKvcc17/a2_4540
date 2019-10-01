@@ -5,6 +5,6 @@
 
 extern void insert(process a[], ui queue[], int index, ui * queueCount);
 extern int dequeue(process a[], ui queue[], ui * queueCount);
-extern void checkReady(process a[], ui queue[], ui * queueCount, ui io[], ui * ioCount, ui * cpu, os osStruct);
+extern void checkReady(process a[], ui queue[], ui * queueCount, os osStruct);
 
 #endif

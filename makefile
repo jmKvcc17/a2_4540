@@ -1,3 +1,8 @@
+# Author: Jesse Meachum
+# Class: CS4540
+# Assignment: A2
+
+
 CFLAGS= -O -Wall -pedantic -std=c11
 CC=gcc
 

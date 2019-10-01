@@ -1,3 +1,8 @@
+/*
+Author: Jesse Meachum
+Class: CS4540
+Assignment: A2
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include "io.h"
@@ -77,15 +82,13 @@ checking the CPU, IO list, and wait queue.
 void iterationLoop(process a[], ui queue[], ui * queueCount, ui io[], ui * ioCount, ui * cpu, os osStruct) {
     int interations = 10000;
 
-    printf("Cpu value: %u\n", *cpu);
-
     for (int i = 0; i < interations; i++) {
         // For each iteration, need to check each process in each "queue"/array
         // for io, cpu, and wait queue
         // Will then need to do calculations/move processes around
         checkCPU(a, queue, queueCount, cpu, osStruct, io, ioCount);
-        checkReady(a, queue, queueCount, io, ioCount, cpu, osStruct);
-        checkIo(a, queue, queueCount, io, ioCount, cpu, osStruct);
+        checkReady(a, queue, queueCount, osStruct);
+        checkIo(a, queue, queueCount, io, ioCount);
         
     }
 }
@@ -98,11 +101,16 @@ void tempPrint(process a[], ui queue[]) {
         printf("Global CPU: %u\n", a[queue[i]].cpu);
         printf("Global IO: %u\n", a[queue[i]].io);
         printf("Current CPU: %u\n", a[queue[i]].curCpu);
-        printf("Current Priority: %u\n", a[queue[i]].curPrior);
         printf("Current IO: %u\n", a[queue[i]].curIo);
-        printf("Wait Count: %u\n", a[queue[i]].waitCount);
+        printf("Current Wait: %u\n", a[queue[i]].wait);
+        printf("Current Priority: %u\n", a[queue[i]].curPrior);
         printf("CPU Total: %u\n", a[queue[i]].cpuTotal);
         printf("IO Total: %u\n", a[queue[i]].ioTotal);
+        printf("Wait Sum: %u\n", a[queue[i]].waitSum);
+        printf("Wait Count: %u\n", a[queue[i]].waitCount);
+        printf("Wait Min: %u\n", a[queue[i]].waitMin);
+        printf("Wait Max: %u\n", a[queue[i]].waitMax);
+        
     }
 }
 
