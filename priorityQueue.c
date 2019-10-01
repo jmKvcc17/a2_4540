@@ -2,6 +2,7 @@
 Author: Jesse Meachum
 Class: CS4540
 Assignment: A2
+Modified Bubble Sort implementation originally from: https://www.geeksforgeeks.org/bubble-sort/
 */
 #include <stdio.h>
 #include "a2.h"
@@ -25,19 +26,21 @@ void checkReady(process a[], ui queue[], ui * queueCount, os osStruct){
             a[queue[i]].curPrior += 1; // Increment the current priority
 
             ui temp;
-            for (int j = 0; j < *queueCount-i-1; j++)  
+            for (int j = 0; j < *queueCount-i-1; j++) {
                 if (a[queue[j]].curPrior >= a[queue[j+1]].curPrior) { // If the process' curPriority is greater than or equal to the next process
                     // Swap
                     temp = queue[j];
                     queue[j] = queue[j+1];
                     queue[j+1] = temp;
                 }
+            }
         }   
     }
 }
 
 /*
-Utilizes insertion sort to insert the process back into the wait queue
+Utilizes modified insertion sort to insert the process back into the wait queue.
+Uses the inner portion of the insertion sort to do actual insertion into queue.
 */
 void insert(process a[], ui queue[], int index, ui * queueCount) {
 

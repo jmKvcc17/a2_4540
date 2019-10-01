@@ -1,3 +1,8 @@
+/*
+Author: Jesse Meachum
+Class: CS4540
+Assignment: A2
+*/
 #ifndef IO
 #define IO
 #include <stdio.h>

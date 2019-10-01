@@ -1,3 +1,8 @@
+/*
+Author: Jesse Meachum
+Class: CS4540
+Assignment: A2
+*/
 #ifndef CPU
 #define CPU
 #include "a2.h"

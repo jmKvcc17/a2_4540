@@ -12,7 +12,6 @@ Assignment: A2
 #include "priorityQueue.h"
 
 int openFile(FILE ** infile);
-void tempPrint(process a[], ui queue[]);
 void readFile(FILE * file, process a[]);
 void iterationLoop(process a[], ui queue[], ui * queueCount, ui io[], ui * ioCount, ui * cpu, os osStruct);
 
@@ -51,7 +50,6 @@ int main(int argc, char * argv[])
         iterationLoop(a, queue, &queueCount, io, &ioCount, &cpu, osStruct); // Go to the main loop for simulation
     }
 
-    //tempPrint(a, queue);
     printStats(a, osStruct); // print the final output
 
     return 0;
@@ -82,35 +80,13 @@ checking the CPU, IO list, and wait queue.
 void iterationLoop(process a[], ui queue[], ui * queueCount, ui io[], ui * ioCount, ui * cpu, os osStruct) {
     int interations = 10000;
 
+    // For each iteration, need to check each process in each "queue"/array
+    // for io, cpu, and wait queue
+    // Will then need to do calculations/move processes around
     for (int i = 0; i < interations; i++) {
-        // For each iteration, need to check each process in each "queue"/array
-        // for io, cpu, and wait queue
-        // Will then need to do calculations/move processes around
         checkCPU(a, queue, queueCount, cpu, osStruct, io, ioCount);
         checkReady(a, queue, queueCount, osStruct);
         checkIo(a, queue, queueCount, io, ioCount);
-        
-    }
-}
-
-void tempPrint(process a[], ui queue[]) {
-    printf("\nProcess end info\n");
-    for (int i = 0; i < 48; i++) {
-        printf("\n");
-        printf("Global priority: %u\n", a[queue[i]].priority);
-        printf("Global CPU: %u\n", a[queue[i]].cpu);
-        printf("Global IO: %u\n", a[queue[i]].io);
-        printf("Current CPU: %u\n", a[queue[i]].curCpu);
-        printf("Current IO: %u\n", a[queue[i]].curIo);
-        printf("Current Wait: %u\n", a[queue[i]].wait);
-        printf("Current Priority: %u\n", a[queue[i]].curPrior);
-        printf("CPU Total: %u\n", a[queue[i]].cpuTotal);
-        printf("IO Total: %u\n", a[queue[i]].ioTotal);
-        printf("Wait Sum: %u\n", a[queue[i]].waitSum);
-        printf("Wait Count: %u\n", a[queue[i]].waitCount);
-        printf("Wait Min: %u\n", a[queue[i]].waitMin);
-        printf("Wait Max: %u\n", a[queue[i]].waitMax);
-        
     }
 }
 
